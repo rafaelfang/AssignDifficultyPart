@@ -11,6 +11,7 @@
 #include <iostream>
 
 #include "AssignDifficultyToBlaPDB.h"
+#include "AssignDifficultyToHHR.h"
 
 using namespace std;
 
@@ -18,7 +19,7 @@ int main(int argc, char* argv[]) {
 	if (argc != 4) {
 		cout << "not enough arguments" << endl;
 		cout << "<executable> <type> <proteinName> <threshold>" << endl;
-
+		return -1;
 	}
 
 	// -blaPDB T0837
@@ -31,7 +32,16 @@ int main(int argc, char* argv[]) {
 		//cout<<threshold<<endl;
 		cout << "The difficulty of " << argv[2] << " is "
 				<< assignDifficultyToBlaPDB.findDifficulty(numOfEValueOkay,
-						threshold)<<endl;;
+						threshold) << endl;
+
+	} else if (strcmp(argv[1], "-hhr") == 0) {
+		AssignDifficultyToHHR assignDifficultyToHHR(argv[2]);
+		assignDifficultyToHHR.loadConfigurationFile();
+		int numOfEValueOkay = assignDifficultyToHHR.analysisDocument();
+		int threshold = atoi(argv[3]);
+		cout << "The difficulty of " << argv[2] << " is "
+				<< assignDifficultyToHHR.findDifficulty(numOfEValueOkay,
+						threshold) << endl;
 
 	}
 
